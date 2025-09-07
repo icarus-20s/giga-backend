@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>New Quote Request</title>
+</head>
+<body style="margin:0; padding:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f6f8;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f6f8; padding:20px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" style="max-width:600px; background:#ffffff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.05); overflow:hidden;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background:#1D4ED8; color:#ffffff; text-align:center; padding:30px 20px;">
+              <h1 style="margin:0; font-size:24px;">New Quote Request Received</h1>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:30px 20px; color:#1F2937;">
+              <p style="font-size:16px; line-height:1.5; margin-bottom:20px;">
+                You have received a new quote request submitted via your website.
+              </p>
+
+              <table style="width:100%; border-collapse:collapse; font-size:14px; color:#374151; margin-bottom:20px;">
+                <tr>
+                  <td style="padding:8px; font-weight:600; width:150px;">Name:</td>
+                  <td style="padding:8px;">{{ fullName }}</td>
+                </tr>
+                <tr style="background-color:#f3f4f6;">
+                  <td style="padding:8px; font-weight:600;">Email:</td>
+                  <td style="padding:8px;">{{ email }}</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px; font-weight:600;">Phone:</td>
+                  <td style="padding:8px;">{{ phone }}</td>
+                </tr>
+                <tr style="background-color:#f3f4f6;">
+                  <td style="padding:8px; font-weight:600;">Service Name:</td>
+                  <td style="padding:8px;">{{ serviceName }}</td>
+                </tr>
+              </table>
+
+              <h3 style="margin-top:20px; color:#1F2937;">Message:</h3>
+              <p style="font-size:15px; line-height:1.5; color:#4B5563; white-space:pre-wrap;">
+                {{ message }}
+              </p>
+
+              <p style="font-size:12px; color:#9CA3AF; margin-top:30px;">
+                Submitted on: {{ now|date:"Y-m-d H:i" }} via your website.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background:#f9fafb; text-align:center; padding:15px; font-size:12px; color:#9CA3AF;">
+              &copy; {{ now|date:"Y" }} Your Company. All rights reserved.
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
