@@ -111,3 +111,8 @@ class NoticeAdmin(admin.ModelAdmin):
         return bool(obj.pdf)
     has_pdf.boolean = True
     has_pdf.short_description = "PDF Uploaded"
+
+
+admin.site.site_header = "GigaTech Admin"     
+admin.site.site_title = "GigaTech Admin Portal"
+admin.site.index_title = "Welcome to GigaTech Admin"
