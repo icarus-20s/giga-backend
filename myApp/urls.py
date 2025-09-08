@@ -3,8 +3,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from myApp.views import (
         contact_view, faq,login,
-    career_listing, career_listing_by_id,jobApplicationList, jobApplicationDetail, email_storage,
-    notice_list, quote_request,gallery_admin_view
+    career_listing, email_storage,
+    notice_list, quote_request,gallery_admin_view,jobApplication
 )        
 
 urlpatterns = [
@@ -14,11 +14,10 @@ urlpatterns = [
 
       # Career (Job Listing) URLs
     path("career/", career_listing, name='career-list'),
-    path("career/<int:id>/", career_listing_by_id, name='career-list-by-id'),
 
         # Job Application URLs
-    path('jobapplications/', jobApplicationList, name='job-application-list'),
-    path('jobapplication/<int:pk>/', jobApplicationDetail, name='job-application-detail'),
+    path('jobapplications/', jobApplication, name='job-application'),
+    
     path('quote/', quote_request, name='quote-request'),
 
         # Email storage URL

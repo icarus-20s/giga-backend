@@ -82,6 +82,7 @@ def notice_list(request):
     serializer = NoticeSerializer(notices, many=True)
     return Response(serializer.data)
 
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
@@ -95,18 +96,6 @@ def notice_create(request):
     except Exception as e:
         return Response({"error": "There was an error creating the notice."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
-def notice_delete(request, id):
-    try:
-        notice = Notice.objects.get(id=id)
-    except Notice.DoesNotExist:
-        return Response(
-            {"message": "Notice not found"},
-            status=status.HTTP_404_NOT_FOUND
-        )
-    notice.delete()
-    return Response({"message": "Notice deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["GET"])
@@ -137,53 +126,22 @@ def career_listing(request):
             status=status.HTTP_404_NOT_FOUND
         )
 
-# Listing a specific career by its ID
+
+@api_view(['POST'])
+def jobApplication(request):
+    parser_classes = (MultiPartParser, FormParser)
+    if request.method == 'POST':
+        serializer = JobApplicationSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 @api_view(['GET'])
-def career_listing_by_id(request, id):
-    try:
-        career = Career.objects.get(id=id)
-        serializer = CareerSerializer(career)
-        return Response(serializer.data)
-    except:
-        return Response(
-            {"message": "Career not found"},
-            status=404
-        )
-# Listing all job applications, grouped by job title
-@api_view(['GET'])
-def jobApplicationList(request):
-    if request.method == 'GET':
-        applications = JobApplication.objects.all()
-        grouped_applications = {}
-
-        for application in applications:
-            job_title = application.job.title
-            if job_title not in grouped_applications:
-                grouped_applications[job_title] = []
-            grouped_applications[job_title].append(application)
-
-        # Prepare the response format
-        grouped_data = {}
-        for job_title, applications in grouped_applications.items():
-            serializer = JobApplicationSerializer(applications, many=True)
-            grouped_data[job_title] = serializer.data
-        print(grouped_data)
-        return Response(grouped_data)
-    
-    
-@api_view(['GET'])
-def jobApplicationDetail(request, pk):
-    try:
-        application = JobApplication.objects.get(pk=pk)
-    except JobApplication.DoesNotExist:
-        return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = JobApplicationSerializer(application)
-        return Response(serializer.data)
-    
-
-@api_view(['GET', 'POST'])
 @parser_classes([MultiPartParser, FormParser])
 def gallery_admin_view(request):
     if request.method == 'GET':

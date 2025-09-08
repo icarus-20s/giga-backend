@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from myApp.models import Career, ContactMessage, CustomUser, EmailStorage, JobApplication,FAQ,GalleryImage
 
 from django.contrib import admin
-from .models import CustomUser, QuoteRequest
+from .models import CustomUser, Notice, QuoteRequest
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
@@ -99,3 +99,15 @@ class QuoteRequestAdmin(admin.ModelAdmin):
             "fields": ("request_date",),
         }),
     )
+
+@admin.register(Notice)
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'date', 'created_at', 'has_pdf')
+    list_filter = ('date', 'created_at')
+    search_fields = ('title', 'description')
+    ordering = ('-date',)
+
+    def has_pdf(self, obj):
+        return bool(obj.pdf)
+    has_pdf.boolean = True
+    has_pdf.short_description = "PDF Uploaded"

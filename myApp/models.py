@@ -5,6 +5,9 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db import models
 from myApp.utils import upload_notice_pdf
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+
 class CustomUser(models.Model):
     ROLE_CHOICES=(
         ("admin","admin"),
@@ -67,6 +70,11 @@ class Notice(models.Model):
 
     def __str__(self):
         return self.title
+@receiver(post_delete, sender=Notice)
+def delete_notice_pdf_on_delete(sender, instance, **kwargs):
+    if instance.pdf:
+        instance.pdf.delete(save=False)
+
     
 class FAQ(models.Model):
     question = models.CharField(max_length=255)
@@ -131,6 +139,15 @@ class JobApplication(models.Model):
     class Meta:
         verbose_name = "Applied Job Application"
         verbose_name_plural = "Applied Job Applications"
+
+
+@receiver(post_delete, sender=JobApplication)
+def delete_files_on_delete(sender, instance, **kwargs):
+    if instance.resumes:
+        instance.resumes.delete(save=False)
+    if instance.cover_letter:
+        instance.cover_letter.delete(save=False)
+
 
 
 
